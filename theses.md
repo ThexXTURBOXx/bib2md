@@ -1,0 +1,2 @@
+- N. Mexis. A Comprehensive Comparison of Fuzzy Extractor Schemes Employing Different Error Correction Codes. M.Sc. thesis, University of Passau, Passau, Germany, October 2023. DOI [`10.15475/ccfesedecc.2023`](https://doi.org/10.15475/ccfesedecc.2023).
+- N. Mexis. Fuzzy Extractors unter Einsatz von Low-Density Parity-Check Codes. B.Sc. thesis, University of Passau, Passau, Germany, July 2021. DOI [`10.13140/RG.2.2.30714.26562`](https://doi.org/10.13140/RG.2.2.30714.26562).

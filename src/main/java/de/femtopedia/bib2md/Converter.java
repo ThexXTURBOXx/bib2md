@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -25,7 +27,7 @@ public class Converter {
             \\end{document}
             """;
 
-    public static String convert(String bib) throws IOException, InterruptedException {
+    public static List<String> convert(String bib) throws IOException, InterruptedException {
         Path temp = randomTempDir();
         Files.createDirectories(temp);
 
@@ -44,7 +46,7 @@ public class Converter {
         pb.directory(temp.toFile());
         Process p = pb.start();
         p.waitFor();
-        String ret = Files.readString(temp.resolve(BBL_FILE));
+        String rawBbl = Files.readString(temp.resolve(BBL_FILE));
 
         try (Stream<Path> walk = Files.walk(temp)) {
             walk.sorted(Comparator.reverseOrder())
@@ -52,11 +54,50 @@ public class Converter {
                     .forEach(File::delete);
         }
 
+        rawBbl = rawBbl.substring(rawBbl.indexOf("\\bibitem"),
+                rawBbl.indexOf("\\end{thebibliography}")).trim();
+
+        List<String> ret = new ArrayList<>();
+        for (String bibItem : rawBbl.split("(?=\\\\bibitem)")) {
+            bibItem = bibItem.trim();
+
+            boolean wasOptOpen = false;
+            int optsOpen = 0;
+            boolean wasNameOpen = false;
+            int namesOpen = 0;
+            int i;
+            for (i = 0; i < bibItem.length(); ++i) {
+                char c = bibItem.charAt(i);
+                if (c == '[') {
+                    wasOptOpen = true;
+                    ++optsOpen;
+                }
+                if (c == ']')
+                    --optsOpen;
+                if (optsOpen <= 0) {
+                    if (c == '{') {
+                        wasNameOpen = true;
+                        ++namesOpen;
+                    }
+                    if (c == '}')
+                        --namesOpen;
+                }
+                if (wasOptOpen && optsOpen <= 0
+                    && wasNameOpen && namesOpen <= 0) {
+                    ++i;
+                    break;
+                }
+            }
+
+            ret.add(LatexProcessor.latexToMd(
+                    bibItem.substring(i).trim()));
+        }
+
         return ret;
     }
 
     private static Path randomTempDir() {
-        return Path.of("temp" + UUID.randomUUID());
+        return Path.of("temp-" + UUID.randomUUID());
     }
 
 }
