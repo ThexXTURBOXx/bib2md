@@ -16,6 +16,9 @@ public class Main {
         Files.writeString(Path.of("coauth.md"),
                 "- " + String.join("\n- ", Converter.convert(
                         Files.readString(Path.of("coauth.bib")))));
+        Files.writeString(Path.of("others.md"),
+                "- " + String.join("\n- ", Converter.convert(
+                        Files.readString(Path.of("others.bib")))));
     }
 
 }
