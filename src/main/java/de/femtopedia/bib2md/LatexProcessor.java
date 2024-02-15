@@ -15,8 +15,6 @@ public class LatexProcessor {
         latex = latex.replace("--", "-");
         latex = latex.replace("~", "\u00a0");
         latex = latex.replace("\\&", "&");
-        latex = latex.replace("``", "\"");
-        latex = latex.replace("''", "\"");
         latex = latex.replace("\\\"{a}", "ä");
         latex = latex.replace("\\\"{A}", "Ä");
         latex = latex.replace("\\\"{o}", "ö");
@@ -29,6 +27,9 @@ public class LatexProcessor {
         latex = latex.replace("\\'{O}", "Ó");
         latex = latex.replace("\\'{u}", "ú");
         latex = latex.replace("\\'{U}", "Ú");
+        latex = latex.replace("``", "\\\"");
+        latex = latex.replace("''", "\\\"");
+        latex = latex.replace("`", "\\'");
         latex = latex.replace("'", "\\'");
         latex = latex.replaceAll("\\\\penalty\\d+\\s*", "");
         latex = transformLatexCommand(latex, "\\emph", 0, 1, "*$1*");
