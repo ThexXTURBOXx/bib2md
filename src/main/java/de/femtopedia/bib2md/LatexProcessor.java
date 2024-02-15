@@ -13,7 +13,7 @@ public class LatexProcessor {
         latex = latex.replace("\t", " ");
         latex = latex.replace("\\newblock", "");
         latex = latex.replace("--", "-");
-        latex = latex.replace("~", " ");
+        latex = latex.replace("~", "\u00a0");
         latex = latex.replace("\\&", "&");
         latex = latex.replace("``", "\"");
         latex = latex.replace("''", "\"");
