@@ -39,3 +39,6 @@ build/
 .idea/
 
 temp-*
+*.bst
+*.md
+!README.md

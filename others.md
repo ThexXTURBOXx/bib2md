@@ -1,1 +1,0 @@
-- N. A. Anagnostopoulos, N. Mexis, and T. Arul. Random Number Generation. *Encyclopedia*, March 2023. URL <https://encyclopedia.pub/entry/42356>.
