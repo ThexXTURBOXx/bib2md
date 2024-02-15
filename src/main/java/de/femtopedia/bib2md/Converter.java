@@ -65,7 +65,6 @@ public class Converter {
             bibItem = LatexProcessor.consumeOptionalArg(bibItem, 0);
             bibItem = LatexProcessor.consumeRequiredArg(bibItem, 0);
 
-            //Files.writeString(Path.of("test.bbl"), bibItem);
             ret.add(LatexProcessor.latexToMd(bibItem));
         }
 

@@ -289,8 +289,8 @@ FUNCTION {format.url}
 { url empty$
     { "" }
     { doi empty$
-      { new.block "URL \url{" url * "}" * }
-      { new.block "DOI \href{https://doi.org/" doi * "}{\texttt{" * doi * "}}" * }
+      { new.block "URL~\url{" url * "}" * }
+      { new.block "DOI~\href{https://doi.org/" doi * "}{\texttt{" * doi * "}}" * }
       if$ }
   if$
 }
