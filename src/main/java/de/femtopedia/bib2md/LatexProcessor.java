@@ -30,7 +30,7 @@ public class LatexProcessor {
         latex = latex.replace("\\'{u}", "ú");
         latex = latex.replace("\\'{U}", "Ú");
         latex = latex.replace("'", "\\'");
-        latex = latex.replaceAll("\\\\penalty\\d+", "");
+        latex = latex.replaceAll("\\\\penalty\\d+\\s*", "");
         latex = transformLatexCommand(latex, "\\emph", 0, 1, "*$1*");
         latex = transformLatexCommand(latex, "\\textit", 0, 1, "*$1*");
         latex = transformLatexCommand(latex, "\\textbf", 0, 1, "**$1**");
