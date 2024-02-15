@@ -61,36 +61,12 @@ public class Converter {
         for (String bibItem : rawBbl.split("(?=\\\\bibitem)")) {
             bibItem = bibItem.trim();
 
-            boolean wasOptOpen = false;
-            int optsOpen = 0;
-            boolean wasNameOpen = false;
-            int namesOpen = 0;
-            int i;
-            for (i = 0; i < bibItem.length(); ++i) {
-                char c = bibItem.charAt(i);
-                if (c == '[') {
-                    wasOptOpen = true;
-                    ++optsOpen;
-                }
-                if (c == ']')
-                    --optsOpen;
-                if (optsOpen <= 0) {
-                    if (c == '{') {
-                        wasNameOpen = true;
-                        ++namesOpen;
-                    }
-                    if (c == '}')
-                        --namesOpen;
-                }
-                if (wasOptOpen && optsOpen <= 0
-                    && wasNameOpen && namesOpen <= 0) {
-                    ++i;
-                    break;
-                }
-            }
+            // Remove \bibitem[...]{...}
+            bibItem = LatexProcessor.consumeOptionalArg(bibItem, 0);
+            bibItem = LatexProcessor.consumeRequiredArg(bibItem, 0);
 
-            ret.add(LatexProcessor.latexToMd(
-                    bibItem.substring(i).trim()));
+            //Files.writeString(Path.of("test.bbl"), bibItem);
+            ret.add(LatexProcessor.latexToMd(bibItem));
         }
 
         return ret;
