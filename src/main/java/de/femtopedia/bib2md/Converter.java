@@ -12,8 +12,9 @@ import java.util.stream.Stream;
 
 public class Converter {
 
-    private static final String TEX_FILE = "main.tex";
-    private static final String BBL_FILE = "main.bbl";
+    private static final String PROJECT_NAME = "main";
+    private static final String TEX_FILE = PROJECT_NAME + ".tex";
+    private static final String BBL_FILE = PROJECT_NAME + ".bbl";
     private static final String BST_FILE = "unsrtnatOWN.bst";
     private static final String BIB_FILE = "bibliography.bib";
 
@@ -40,12 +41,9 @@ public class Converter {
         Files.writeString(temp.resolve(TEX_FILE),
                 TEX_CONTENT.formatted(BIB_FILE));
 
-        var pb = new ProcessBuilder("latexmk", TEX_FILE);
-        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-        pb.redirectError(ProcessBuilder.Redirect.INHERIT);
-        pb.directory(temp.toFile());
-        Process p = pb.start();
-        p.waitFor();
+        //startProcessAndWait(temp.toFile(), "latexmk", TEX_FILE);
+        startProcessAndWait(temp.toFile(), "pdflatex", TEX_FILE);
+        startProcessAndWait(temp.toFile(), "bibtex", PROJECT_NAME);
         String rawBbl = Files.readString(temp.resolve(BBL_FILE));
 
         try (Stream<Path> walk = Files.walk(temp)) {
@@ -73,6 +71,15 @@ public class Converter {
 
     private static Path randomTempDir() {
         return Path.of("temp-" + UUID.randomUUID());
+    }
+
+    private static void startProcessAndWait(File dir, String... cmd) throws IOException, InterruptedException {
+        var pb = new ProcessBuilder(cmd);
+        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+        pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+        pb.directory(dir);
+        Process p = pb.start();
+        p.waitFor();
     }
 
 }
