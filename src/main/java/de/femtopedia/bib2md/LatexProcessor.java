@@ -64,7 +64,7 @@ public class LatexProcessor {
         latex = transformLatexCommand(latex, "\\textit", 0, 1, "*$1*");
         latex = transformLatexCommand(latex, "\\textbf", 0, 1, "**$1**");
         latex = transformLatexCommand(latex, "\\texttt", 0, 1, "`$1`");
-        latex = transformLatexCommand(latex, "\\url", 0, 1, "<$1>");
+        latex = transformLatexCommand(latex, "\\url", 0, 1, "[`$1`]($1)");
         latex = transformLatexCommand(latex, "\\href", 0, 2, "[$2]($1)");
         latex = latex.replace("{", "");
         latex = latex.replace("}", "");
