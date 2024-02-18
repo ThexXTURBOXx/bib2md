@@ -15,7 +15,6 @@ public class Converter {
     private static final String PROJECT_NAME = "main";
     private static final String TEX_FILE = PROJECT_NAME + ".tex";
     private static final String BBL_FILE = PROJECT_NAME + ".bbl";
-    private static final String BST_FILE = "unsrtnatOWN.bst";
     private static final String BIB_FILE = "bibliography.bib";
 
     private static final String TEX_CONTENT = """
@@ -23,23 +22,23 @@ public class Converter {
             \\usepackage{hyperref}
             \\begin{document}
             \\nocite{*}
-            \\bibliographystyle{unsrtnatOWN}
+            \\bibliographystyle{%s}
             \\bibliography{%s}
             \\end{document}
             """;
 
-    public static List<String> convert(String bib) throws IOException, InterruptedException {
+    public static List<String> convert(String bib, String bibStyle) throws IOException, InterruptedException {
         Path temp = randomTempDir();
         Files.createDirectories(temp);
 
         Path bibPath = temp.resolve(BIB_FILE);
         Files.writeString(bibPath, bib);
 
-        Path bstPath = Path.of(BST_FILE);
+        Path bstPath = Path.of(bibStyle + ".bst");
         Files.copy(bstPath, temp.resolve(bstPath));
 
         Files.writeString(temp.resolve(TEX_FILE),
-                TEX_CONTENT.formatted(BIB_FILE));
+                TEX_CONTENT.formatted(bibStyle, BIB_FILE));
 
         //startProcessAndWait(temp.toFile(), "latexmk", TEX_FILE);
         startProcessAndWait(temp.toFile(), "pdflatex", TEX_FILE);

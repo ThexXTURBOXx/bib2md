@@ -13,16 +13,20 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
         Files.writeString(Path.of("theses.md"),
                 "- " + String.join("\n- ", Converter.convert(
-                        download(new URI("https://femtopedia.de/research/theses.bib")))));
+                        download(new URI("https://femtopedia.de/research/theses.bib")),
+                        "unsrtnatOWN")));
         Files.writeString(Path.of("own.md"),
                 "- " + String.join("\n- ", Converter.convert(
-                        download(new URI("https://femtopedia.de/research/first_author.bib")))));
+                        download(new URI("https://femtopedia.de/research/first_author.bib")),
+                        "unsrtnatOWN")));
         Files.writeString(Path.of("coauth.md"),
                 "- " + String.join("\n- ", Converter.convert(
-                        download(new URI("https://femtopedia.de/research/co_author.bib")))));
+                        download(new URI("https://femtopedia.de/research/co_author.bib")),
+                        "unsrtnatOWN")));
         Files.writeString(Path.of("others.md"),
                 "- " + String.join("\n- ", Converter.convert(
-                        download(new URI("https://femtopedia.de/research/others.bib")))));
+                        download(new URI("https://femtopedia.de/research/others.bib")),
+                        "unsrtnatOWN")));
     }
 
     private static String download(URI uri) throws IOException {
