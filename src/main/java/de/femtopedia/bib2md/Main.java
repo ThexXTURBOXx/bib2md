@@ -11,22 +11,34 @@ import java.nio.file.Path;
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
-        Files.writeString(Path.of("theses.md"),
-                "- " + String.join("\n- ", Converter.convert(
-                        download(new URI("https://femtopedia.de/research/theses.bib")),
-                        "unsrtnatOWN")));
-        Files.writeString(Path.of("own.md"),
-                "- " + String.join("\n- ", Converter.convert(
-                        download(new URI("https://femtopedia.de/research/first_author.bib")),
-                        "unsrtnatOWN")));
-        Files.writeString(Path.of("coauth.md"),
-                "- " + String.join("\n- ", Converter.convert(
-                        download(new URI("https://femtopedia.de/research/co_author.bib")),
-                        "unsrtnatOWN")));
-        Files.writeString(Path.of("others.md"),
-                "- " + String.join("\n- ", Converter.convert(
-                        download(new URI("https://femtopedia.de/research/others.bib")),
-                        "unsrtnatOWN")));
+        String theses = "- " + String.join("\n- ", Converter.convert(
+                download(new URI("https://femtopedia.de/research/theses.bib")),
+                "unsrtnatOWN"));
+        String own = "- " + String.join("\n- ", Converter.convert(
+                download(new URI("https://femtopedia.de/research/first_author.bib")),
+                "unsrtnatOWN"));
+        String coauth = "- " + String.join("\n- ", Converter.convert(
+                download(new URI("https://femtopedia.de/research/co_author.bib")),
+                "unsrtnatOWN"));
+        String others = "- " + String.join("\n- ", Converter.convert(
+                download(new URI("https://femtopedia.de/research/others.bib")),
+                "unsrtnatOWN"));
+
+        Files.writeString(Path.of("out.md"),
+                """
+                        ## Theses
+                        %s
+                                                
+                        ## First author
+                        %s
+                                                
+                        ## Co-author
+                        %s
+                                                
+                        ## Others
+                        %s
+                        """
+                        .formatted(theses, own, coauth, others));
     }
 
     private static String download(URI uri) throws IOException {
