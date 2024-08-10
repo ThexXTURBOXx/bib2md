@@ -27,7 +27,15 @@ public class Converter {
             \\end{document}
             """;
 
-    public static List<String> convert(String bib, String bibStyle) throws IOException, InterruptedException {
+    public static List<String> convert(String bib, String bibStyle)
+            throws IOException, InterruptedException {
+        return convert(bib, bibStyle, null);
+    }
+
+    public static List<String> convert(String bib, String bibStyle, String nameToEmph)
+            throws IOException, InterruptedException {
+        nameToEmph = nameToEmph == null ? null : nameToEmph.replace("\\s", "[\\s\u00a0]");
+
         Path temp = randomTempDir();
         Files.createDirectories(temp);
 
@@ -62,7 +70,11 @@ public class Converter {
             bibItem = LatexProcessor.consumeOptionalArg(bibItem, 0);
             bibItem = LatexProcessor.consumeRequiredArg(bibItem, 0);
 
-            ret.add(LatexProcessor.latexToMd(bibItem));
+            bibItem = LatexProcessor.latexToMd(bibItem);
+            bibItem = nameToEmph != null
+                    ? bibItem.replaceAll("(" + nameToEmph + ")", "**$1**")
+                    : bibItem;
+            ret.add(bibItem);
         }
 
         return ret;
