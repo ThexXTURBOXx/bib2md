@@ -13,16 +13,16 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
         String theses = "- " + String.join("\n- ", Converter.convert(
                 download(new URI("https://femtopedia.de/research/theses.bib")),
-                "unsrtnatOWN", "N.\\s*Mexis"));
+                "unsrtnatOWN", "N\\. Mexis"));
         String own = "- " + String.join("\n- ", Converter.convert(
                 download(new URI("https://femtopedia.de/research/first_author.bib")),
-                "unsrtnatOWN", "N.\\s*Mexis"));
+                "unsrtnatOWN", "N\\. Mexis"));
         String coauth = "- " + String.join("\n- ", Converter.convert(
                 download(new URI("https://femtopedia.de/research/co_author.bib")),
-                "unsrtnatOWN", "N.\\s*Mexis"));
+                "unsrtnatOWN", "N\\. Mexis"));
         String others = "- " + String.join("\n- ", Converter.convert(
                 download(new URI("https://femtopedia.de/research/others.bib")),
-                "unsrtnatOWN", "N\\.\\s*Mexis"));
+                "unsrtnatOWN", "N\\. Mexis"));
 
         Files.writeString(Path.of("out.md"),
                 """

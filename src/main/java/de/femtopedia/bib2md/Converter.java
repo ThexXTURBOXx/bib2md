@@ -34,7 +34,7 @@ public class Converter {
 
     public static List<String> convert(String bib, String bibStyle, String nameToEmph)
             throws IOException, InterruptedException {
-        nameToEmph = nameToEmph == null ? null : nameToEmph.replace("\\s", "[\\s\u00a0]");
+        nameToEmph = nameToEmph == null ? null : nameToEmph.replace(" ", "[\\s\u00a0]*");
 
         Path temp = randomTempDir();
         Files.createDirectories(temp);
