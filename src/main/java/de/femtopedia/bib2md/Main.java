@@ -28,13 +28,13 @@ public class Main {
                 """
                         ## Theses
                         %s
-                                                
+                        
                         ## First author
                         %s
-                                                
+                        
                         ## Co-author
                         %s
-                                                
+                        
                         ## Others
                         %s
                         """
