@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Converter {
@@ -27,14 +30,11 @@ public class Converter {
             \\end{document}
             """;
 
-    public static List<String> convert(String bib, String bibStyle)
+    public static List<String> convert(String bib, String bibStyle, String... namesToEmph)
             throws IOException, InterruptedException {
-        return convert(bib, bibStyle, null);
-    }
-
-    public static List<String> convert(String bib, String bibStyle, String nameToEmph)
-            throws IOException, InterruptedException {
-        nameToEmph = nameToEmph == null ? null : nameToEmph.replace(" ", "[\\s\u00a0]*");
+        Set<String> emphNames = Arrays.stream(namesToEmph)
+                .map(n -> n.replace(" ", "[\\s\u00a0]*"))
+                .collect(Collectors.toSet());
 
         Path temp = randomTempDir();
         Files.createDirectories(temp);
@@ -71,9 +71,10 @@ public class Converter {
             bibItem = LatexProcessor.consumeRequiredArg(bibItem, 0);
 
             bibItem = LatexProcessor.latexToMd(bibItem);
-            bibItem = nameToEmph != null
-                    ? bibItem.replaceAll("(" + nameToEmph + ")", "**$1**")
-                    : bibItem;
+
+            for (String name : emphNames)
+                bibItem = bibItem.replaceAll("(" + name + ")", "**$1**");
+
             ret.add(bibItem);
         }
 
