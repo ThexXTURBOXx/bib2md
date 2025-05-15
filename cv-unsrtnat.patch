@@ -1,0 +1,86 @@
+--- unsrtnat.bst	2025-05-15 10:30:38.984163400 +0200
++++ unsrtnatOWN.bst	2025-05-15 10:36:01.613285400 +0200
+@@ -70,11 +70,13 @@
+     title
+     type
+     url
++    urn
+     volume
+     year
+   }
+   {}
+   { label extra.label sort.label short.list }
++% CHANGED: Added URN field above
+ 
+ INTEGERS { output.state before.all mid.sentence after.sentence after.block }
+ 
+@@ -219,7 +221,9 @@
+   s num.names$ 'numnames :=
+   numnames 'namesleft :=
+     { namesleft #0 > }
+-    { s nameptr "{ff~}{vv~}{ll}{, jj}" format.name$ 't :=
++    %{ s nameptr "{ff~}{vv~}{ll}{, jj}" format.name$ 't :=
++    % CHANGED: Abbreviate first names
++    { s nameptr "{f.~}{vv~}{ll}{,~jj}" format.name$ 't :=
+       nameptr #1 >
+         { namesleft #1 >
+             { ", " * t * }
+@@ -282,24 +286,29 @@
+   if$
+ }
+ 
++% CHANGED: Automatically transform DOI and URN to links
+ FUNCTION {format.url}
+ { url empty$
+     { "" }
+-    { new.block "URL \url{" url * "}" * }
++    { doi empty$
++      { urn empty$
++        { new.block "URL~\url{" url * "}" * }
++        { new.block "URN~\href{" url * "}{\texttt{" * urn * "}}" * }
++        if$ }
++      { new.block "DOI~\href{https://doi.org/" doi * "}{\texttt{" * doi * "}}" * }
++      if$ }
+   if$
+ }
+ 
++% CHANGED: We don't need DOIs because of the above change
+ FUNCTION {format.doi}
+-{ doi empty$
+-    { "" }
+-    { new.block "\doi{" doi * "}" * }
+-  if$
+-}
++{ "" }
+ 
++% CHANGED: Do not make titles all-lowercase
+ FUNCTION {format.title}
+ { title empty$
+     { "" }
+-    { title "t" change.case$ }
++    { title }
+   if$
+ }
+ 
+@@ -426,8 +435,9 @@
+       " " * swap$ *
+     }
+   if$
+-  extra.label *
++  %extra.label *
+ }
++% CHANGED: Removed \natexlabc and similar spurious commands
+ 
+ FUNCTION {format.btitle}
+ { title emphasize
+@@ -1106,7 +1116,9 @@
+     { pop$ " et~al." * }
+     { #2 <
+         'skip$
+-        { s #2 "{ff }{vv }{ll}{ jj}" format.name$ "others" =
++        %{ s #2 "{ff }{vv }{ll}{ jj}" format.name$ "others" =
++        % CHANGED: Abbreviate first names
++        { s #2 "{f.~}{vv~}{ll}{~jj}" format.name$ "others" =
+             { " et~al." * }
+             { " and " * s #2 "{vv~}{ll}" format.name$ * }
+           if$
