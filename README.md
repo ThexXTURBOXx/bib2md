@@ -28,7 +28,7 @@ You need to either provide a custom bib style in the `Main` class or use my unsr
 
 1. Download the [original `unsrtnat.bib`](https://satztexnik.com/tex-archive/macros/latex/contrib/natbib/unsrtnat.bst)
    to the project root
-2. Apply the patch from `cv-unsrtnat.patch` to it
+2. Apply the patch from [`cv-unsrtnat.patch`](cv-unsrtnat.patch) to it
 
 ## How does this work?
 
