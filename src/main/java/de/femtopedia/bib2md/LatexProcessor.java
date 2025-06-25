@@ -59,6 +59,7 @@ public class LatexProcessor {
         latex = latex.replace("''", "\\\"");
         latex = latex.replace("`", "\\'");
         latex = latex.replace("'", "\\'");
+        latex = latex.replace("\\_", "_");
         latex = latex.replaceAll("\\\\penalty\\d+\\s*", "");
         latex = transformLatexCommand(latex, "\\emph", 0, 1, "*$1*");
         latex = transformLatexCommand(latex, "\\textit", 0, 1, "*$1*");
