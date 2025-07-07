@@ -37,9 +37,9 @@
 +    { doi empty$
 +      { urn empty$
 +        { new.block "URL~\url{" url * "}" * }
-+        { new.block "URN~\href{" url * "}{\texttt{" * urn * "}}" * }
++        { new.block "URN~\href{" url * "}{\texttt{\detokenize{" * urn * "}}}" * }
 +        if$ }
-+      { new.block "DOI~\href{https://doi.org/" doi * "}{\texttt{" * doi * "}}" * }
++      { new.block "DOI~\href{https://doi.org/" doi * "}{\texttt{\detokenize{" * doi * "}}}" * }
 +      if$ }
    if$
  }
